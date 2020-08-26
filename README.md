@@ -40,7 +40,7 @@ Sistema de gerenciamento desenvolvido para um cliente ficcional, dono de oficina
 ---
 ### Instruções
 
-OBS: o autor reconhece que o commit do arquivo .env é uma má prática, mas nesse projeto isso foi feito de forma a facilitar com que os recrutadores consigam rodar a aplicação sem maiores problemas.
+OBS: o autor reconhece que o commit do arquivo ".env" é uma má prática, mas nesse projeto isso foi feito de forma a facilitar com que os recrutadores consigam rodar a aplicação sem maiores problemas.
 
 **Pré-requisitos para rodar a aplicação:**
 - Ter o [Composer](https://getcomposer.org/) instalado na máquina
@@ -67,9 +67,40 @@ php artisan config:cache
 
 - Inicie o banco de dados da aplicação a nível local
 
-A aplicação utiliza o SQLite para armazenar os dados. Para realizar as migrations com sucesso, deve haver um arquivo nomeado "database.sqlite" na raiz do seu diretório "/database". Esse arquivo servirá como um banco de dados a nível local, e armazenará todos os dados após as migrations. Ao clonar o repositório, você já terá esse arquivo em seu devido diretório. Note que se você apagar o arquivo "database.sqlite" ou mudá-lo de diretório, a aplicação encontrará problemas para se conectar ao banco de dados, portanto, se houver algum problema, crie manualmente o arquivo "database.sqlite" no diretório "/database". Lembre-se também de realizar as migrations novamente toda vez que o arquivo "database.sqlite" for alterado.
+A aplicação utiliza o SQLite para armazenar os dados. Para realizar as migrations com sucesso, deve haver um arquivo nomeado "database.sqlite" no diretório "/database" da aplicação. Esse arquivo deve ser criado sem nenhum texto ou quaisquer conteúdos dentro dele.
 
-Para realizar as migrations, use o comando
+**Crie o arquivo "database.sqlite"**
+
+Através do terminal (exceto CMD)
+```console
+cd database
+touch database.sqlite
+```
+
+Ou simplesmente acesse o diretório "/database" através do explorador de arquivos e crie um arquivo com nome "database.sqlite"
+
+Esse arquivo servirá como um banco de dados a nível local, e armazenará todos os dados após as migrations. Note que se você apagar o arquivo "database.sqlite" ou mudá-lo de diretório, a aplicação encontrará problemas para se conectar ao banco de dados, portanto, se houver algum problema, crie manualmente o arquivo "database.sqlite" no diretório "/database". Lembre-se também de realizar as migrations novamente caso tenha apagado e recriado o arquivo "database.sqlite" por algum motivo.
+
+OBS: caso tenha problemas com o SQLite, basta trocar os dados no arquivo ".env" para se conectar ao banco de dados da sua preferência. Exemplo:
+
+Para se conectar ao MySQL, devem ser feitas as seguintes alterações
+
+
+DB_CONNECTION=mysql
+
+DB_HOST=127.0.0.1
+
+DB_PORT=3306
+
+DB_DATABASE=laravel
+
+DB_USERNAME=seuusuario
+
+DB_PASSWORD=suasenha
+
+
+
+- Realize as migrations, usando o comando
 ```console
 php artisan migrate
 ```
