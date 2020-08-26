@@ -64,6 +64,7 @@ Use os comandos
 php artisan key:generate
 php artisan config:cache
 ```
+OBS: caso haja algum erro nessa fase, rode mais uma vez o comando "composer install" e tente novamente.
 
 - Inicie o banco de dados da aplicação a nível local
 
