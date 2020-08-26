@@ -31,6 +31,11 @@ class StoreUpdateQuoteRequest extends FormRequest
         ];
     }
 
+    /**
+     * Customize validation error messages.
+     *
+     * @return array
+     */
     public function messages() {
         return [
             'client_name.required' => 'O nome do cliente é obrigatório.',

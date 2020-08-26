@@ -171,11 +171,7 @@
         }
 
         const quote_date_initial_filter = document.getElementById('quote_date_initial');
-        quote_date_initial_filter.value = `${year}-${month}-${day}`;
-
         const quote_date_final_filter = document.getElementById('quote_date_final');
-        quote_date_final_filter.value = `${year+1}-${month}-${day}`;
-
         const client_name_filter = document.getElementById('client_name');
         const employee_name_filter = document.getElementById('employee_name');
         const table = document.getElementById('quotes_tbody');
@@ -190,7 +186,7 @@
         
         const controls = {
             next: () => {
-                if(state.currentPage == state.pagesNum){
+                if(state.currentPage == state.pagesNum || state.pagesNum == 0){
                     return;
                 } else {
                     state.currentPage++;
@@ -199,7 +195,7 @@
                 
             },
             prev: () => {
-                if(state.currentPage == 1) {
+                if(state.currentPage <= 1) {
                     return;
                 } else {
                     state.currentPage--;
@@ -213,32 +209,34 @@
             if(!first){
                 let html = '';
                 let quotesFiltered = quotes;
+
+                if(quote_date_initial_filter.value != '' && quote_date_final_filter.value != 0) {
+                    quotesFiltered = quotes.filter(quote => {
+                                        
+                        let initial_date = new Date(quote_date_initial_filter.value);
+                        let final_date = new Date(quote_date_final_filter.value);
+                        let date = new Date(quote.quote_date);
+                        
+
+                        if(initial_date <= date && date <= final_date){
+                            console.log('ok')
+                            return true;
+                        } else {
+                            return false;
+                        }
+                        
+                    })
+                }
                 
-                quotesFiltered = quotes.filter(quote => {
-                    
-                    let initial_date = new Date(quote_date_initial_filter.value);
-                    let final_date = new Date(quote_date_final_filter.value);
-                    let date = new Date(quote.quote_date);
-                    
-                    if(initial_date <= date && date <= final_date){
-                        return true;
-                    } else {
-                        return false;
-                    }
-                    
-                })
-
-                if(client_name_filter.value != '' && employee_name_filter.value == '') {
-                    quotesFiltered = quotes.filter(quote => quote.client_name == client_name_filter.value);
-
-                } else if(employee_name_filter.value != '' && client_name_filter.value == '') {
-                    quotesFiltered = quotes.filter(quote => quote.employee_name == employee_name.value);
-
-                } else if(client_name_filter.value != '' && employee_name_filter.value != '') {
-                    quotesFiltered = quotes.filter(quote => quote.client_name == client_name_filter.value);
-                    quotesFiltered = quotesFiltered.filter(quote => quote.employee_name == employee_name.value);
+                if(client_name_filter.value != '') {
+                    quotesFiltered = quotesFiltered.filter(quote => quote.client_name == client_name_filter.value);
 
                 }
+                
+                if(employee_name_filter.value != '') {
+                    quotesFiltered = quotesFiltered.filter(quote => quote.employee_name == employee_name.value);
+                }
+                
                 
                 let rows = [];
                 quotesFiltered.forEach(quote => {
@@ -252,14 +250,14 @@
                     rows.push(html);
                     html = '';
                 })
-
-                quote_date_initial_filter.value = `${year}-${month}-${day}`;
-                quote_date_final_filter.value = `${year+1}-${month}-${day}`;
+                
                 client_name_filter.value = '';
                 employee_name_filter.value = '';
 
                 state.pagesNum = Math.ceil(rows.length/10)
                 state.pagesContent = rows;
+
+                renderTable(state.currentPage)
             } else {
                 bubbleSort(quotes)
                 let html = ''
@@ -277,6 +275,7 @@
                 })
                 
                 state.pagesContent = rows;
+
                 renderTable(1)
             }
         }
