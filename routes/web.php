@@ -15,3 +15,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'pages.home');
 Route::resource('orcamentos', 'QuoteController');
+Route::any('/orcamentos/search', 'QuoteController@search')->name('orcamentos.search');

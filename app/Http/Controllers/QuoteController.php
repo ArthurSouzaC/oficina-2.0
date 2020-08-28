@@ -9,6 +9,13 @@ use App\Quote;
 
 class QuoteController extends Controller
 {   
+
+    private $repository;
+
+    public function __construct(Quote $quote) {
+        $this->repository = $quote;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +23,7 @@ class QuoteController extends Controller
      */
     public function index()
     {
-        $quotes = Quote::all();
+        $quotes = Quote::orderBy('quote_date', 'desc')->paginate(10);
 
         return view('pages.index', [
             'quotes' => $quotes
@@ -100,5 +107,21 @@ class QuoteController extends Controller
     {
         Quote::where('quote_id', $id)->delete();
         return redirect() -> route('orcamentos.index', ['messages' => "Orçamento de ID $id deletado"]);
+    }
+
+    /**
+     * Get the filter params and renders the view again, according to the search.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request)
+    {
+        $filters = $request->except("_token");
+        $quotes = $this->repository->search($filters);
+
+        return view('pages.index', [
+            'quotes' => $quotes
+        ]);
     }
 }
