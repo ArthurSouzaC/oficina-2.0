@@ -40,7 +40,6 @@ Sistema de gerenciamento desenvolvido para um cliente ficcional, dono de oficina
 ---
 ### Instruções
 
-OBS: o autor reconhece que o commit do arquivo ".env" é uma má prática, mas nesse projeto isso foi feito de forma a facilitar com que os recrutadores consigam rodar a aplicação sem maiores problemas.
 
 **Pré-requisitos para rodar a aplicação:**
 - Ter o [Composer](https://getcomposer.org/) instalado na máquina
@@ -58,6 +57,8 @@ composer install
 ```
 
 - Realizar as configurações iniciais
+
+- **Habilite as variáveis de ambiente criando um arquivo ".env" na raiz da aplicação, contendo tudo que há do arquivo ".env.example"** (você pode simplesmente tirar o ".example" do arquivo ".env.example")
 
 Use os comandos
 ```console
