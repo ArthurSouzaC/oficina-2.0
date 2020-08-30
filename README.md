@@ -58,7 +58,7 @@ composer install
 
 - Realizar as configurações iniciais
 
-- **Habilite as variáveis de ambiente criando um arquivo ".env" na raiz da aplicação, contendo tudo que há do arquivo ".env.example"** (você pode simplesmente tirar o ".example" do arquivo ".env.example")
+**Habilite as variáveis de ambiente criando um arquivo ".env" na raiz da aplicação, contendo tudo que há do arquivo ".env.example"** (você pode simplesmente tirar o ".example" do arquivo ".env.example")
 
 Use os comandos
 ```console
