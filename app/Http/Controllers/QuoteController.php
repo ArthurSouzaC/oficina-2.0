@@ -23,7 +23,7 @@ class QuoteController extends Controller
      */
     public function index()
     {
-        $quotes = Quote::orderBy('quote_date', 'desc')->paginate(10);
+        $quotes = $this->repository->index();
 
         return view('pages.index', [
             'quotes' => $quotes
@@ -51,7 +51,7 @@ class QuoteController extends Controller
         $data = $request->except('quote_description');
         $data += ['quote_id' => Str::random(9)];
         $data += ['quote_description' => str_replace(chr(34), chr(39), $request->quote_description)];
-        Quote::create($data);
+        $this->repository->updateQuote($data);
 
         return redirect()->route('orcamentos.index');
     }
@@ -64,7 +64,7 @@ class QuoteController extends Controller
      */
     public function show($id)
     {
-        $quote = Quote::where('quote_id', $id)->first();
+        $quote = $this->repository->getQuote($id);
         return view('pages.show', ['quote' => $quote]);
     }
 
@@ -76,7 +76,7 @@ class QuoteController extends Controller
      */
     public function edit($id)
     {
-        $quote = Quote::where('quote_id', $id)->first();
+        $quote = $this->repository->getQuote($id);
         return view('pages.edit', ['quote' => $quote]);
     }
 
@@ -90,10 +90,10 @@ class QuoteController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->all();
-        Quote::where('quote_id', $id)->delete();
+        $this->repository->deleteQuote($id);
         $data += ['quote_id' => $id];
         $data += ['quote_description' => str_replace(chr(34), chr(39), $request->quote_description)];
-        Quote::create($data);
+        $this->repository->updateQuote($data);
         return redirect() -> route('orcamentos.index', ['messages' => "Orçamento de ID $id atualizado"]);
     }
 
@@ -105,7 +105,7 @@ class QuoteController extends Controller
      */
     public function destroy($id)
     {
-        Quote::where('quote_id', $id)->delete();
+        $this->repository->deleteQuote($id);
         return redirect() -> route('orcamentos.index', ['messages' => "Orçamento de ID $id deletado"]);
     }
 
